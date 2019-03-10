@@ -11,7 +11,7 @@ _start:
 	//
 	//branch w/o link
 	//
-	b	label01
+	bl	label01
 
 label01:
 	nop
