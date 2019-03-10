@@ -62,22 +62,22 @@ Please take your note here.
 ===
 Use the qemu to run the main.s as shown in the figure below
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/before.jpg)
+![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/before.jpg)
 
 use `si` ,do `0xa` ,we can see the `pc` jump to  `0x0a` but 'lr' no change. as shown in the figure below
 
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/f_SI.jpg)
+![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/f_SI.jpg)
 
 and second time `si`,`lr` is changed .as shown in the fugure below.
 
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/S_SI.jpg)
+![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/S_SI.jpg)
 
 when `b` and `bl` Exchang with each other , `0xa`, `lr` is change.
 
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/BLB_S_SI.jpg)
+![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/BLB_S_SI.jpg)
 
 so we can know use `bl` it will bring value to `lr`,`b` will not.
 
