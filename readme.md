@@ -74,14 +74,14 @@ and second time `si`,`lr` is changed .as shown in the fugure below.
 
 ![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/S_SI.jpg)
 
-when `b` and `bl` Exchang with each other , `0xa` woring `lr` is change.
+when `b` and `bl` Exchang with each other , `0xa`, `lr` is change.
 
 
 ![](https://github.com/ESEmbedded_HW02/img_HW02/blob/master/img_HW02/BLB_S_SI.jpg)
 
 so we can know use `bl` it will bring value to `lr`,`b` will not.
 
-
+if the figure can't see , the figure file put on the `img_HW02` folder.
 
 
 
