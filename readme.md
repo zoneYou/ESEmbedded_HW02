@@ -58,32 +58,96 @@ This is the hw02 sample. Please follow the steps below.
 Please take your note here.
 
 
-#HW02
+HW02
 ===
-Use the qemu to run the main.s as shown in the figure below
+## 1.實驗題目
+觀察`push{r0,r1,r2}`,`pop{r0,r1,r2}`指令差異。
+## 2.實驗步驟
+1. 設計測試程式main.s，從`_start`開始,往`r0``r1``r2`丟值，在執行指令，並在最後回去`_start`，多次執行觀察記憶體堆疊狀態，如下面程式所示。
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/before.jpg)
+main.s:
 
-use `si` ,do `0xa` ,we can see the `pc` jump to  `0x0a` but 'lr' no change. as shown in the figure below
+```assembly
+.syntax unified
+
+.word 0x20000100
+.word _start
+
+.global _start
+.type _start, %function
+_start:
+
+	mov r0,#0
+	mov r1,#1
+	mov r2,#2
+	//
+	push 	{r2}
+	push	{r1}
+	push	{r0}
+	push	{r0,r1,r2}
+	push	{r2,r0,r1}
+	//
+	pop	{r0}
+	pop	{r2}
+	pop	{r1}
+	
+	pop	{r0,r1,r2}
+	pop 	{r2,r0,r1}
+	//
+	nop
+
+	//
+	//branch w/o link
+	//
+	b	label01
+
+label01:
+	nop
+
+	//
+	//branch w/ link
+	//
+	bl	sleep
+
+sleep:
+	nop
+	b	_start
+```
+
+2. 將 main.s 編譯並以 qemu 模擬， `$ make clean`, `$ make`, `$ make qemu`
+開啟另一 Terminal 連線 `$ arm-none-eabi-gdb` ，再輸入 `target remote localhost:1234` 連接，輸入兩次的 `ctrl + x` 再輸入 `2`, 開啟 Register 以及指令，並且輸入 `si` 單步執行觀察。
+在使用qemu模擬時發現,程式輸入`r0``r1``r2`順序,在模擬內都會被按照順序排列。
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/1.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/2.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/3.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/4.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/5.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/6.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/7.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/8.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/9.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/10.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/11.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/12.jpg)
+
+![](https://github.com/zoneYou/ESEmbedded_HW02/img_HW02/13.jpg)
 
 
-![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/f_SI.jpg)
-
-and second time `si`,`lr` is changed .as shown in the fugure below.
-
-
-![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/S_SI.jpg)
-
-when `b` and `bl` Exchang with each other , `0xa`, `lr` is change.
-
-
-![](https://github.com/ESEmbedded_HW02/img_HW02/img_HW02/BLB_S_SI.jpg)
-
-so we can know use `bl` it will bring value to `lr`,`b` will not.
-
-if the figure can't see , the figure file put on the `img_HW02` folder.
-
-
-
+## 3. 結果與討論
+1. 使用`push`指令會發現每次記憶體單元位址會按照順序遞減,也就是說使用此指令會按照順序根據記憶體位置堆疊寫資料。
+2. 使用`pop`指令與`push`指令相反,會根據每次使用記憶體單元按照順序遞增,也就表示會從堆疊中讀取數據。
+3. github的圖檔如顯示不出會放在img_HW02,遇到了一點使用障礙。 
 
 
